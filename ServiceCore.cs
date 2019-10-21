@@ -17,6 +17,7 @@ namespace computerMaintainHelper
         private readonly string RegisterCron = ConfigurationManager.AppSettings["RegisterCron"];
         private readonly string CentreServer = ConfigurationManager.AppSettings["CentreServer"];
         private readonly string ReConnectInterval = ConfigurationManager.AppSettings["ReConnectInterval"];
+        private readonly bool EnableWS = bool.Parse(ConfigurationManager.AppSettings["EnableWS"]);
         private NancyHost _Nancy;
         public bool WsCloseSignal = false;
         public void Start()
@@ -33,8 +34,12 @@ namespace computerMaintainHelper
                 _Nancy = new NancyHost(hostConf, url);
                 _Nancy.Start();
                 Console.WriteLine($"当前监听:{url}\r\n诊断地址:{url}/_Nancy/\r\n访问Token:{Bootstrapper.ServiceToken}");
-                //启动websocket服务
-                WsHandler();
+                if (EnableWS)
+                {
+                    //启动websocket服务
+                    WsHandler();
+                }
+               
 
             }
             catch (Exception ex)

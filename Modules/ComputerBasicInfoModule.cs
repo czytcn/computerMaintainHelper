@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.ServiceProcess;
 using System.Threading.Tasks;
 
@@ -93,6 +94,28 @@ namespace computerMaintainHelper.Modules
                 }
                 );
                 return JsonConvert.SerializeObject(result);
+            });
+            Get("/netinterfaces", async (r, w) =>
+            {
+                List<NetInterfaceInfo> result = new List<NetInterfaceInfo>();
+
+                await Task.Run(()=> {
+                    foreach (NetworkInterface nic in NetworkInterface.GetAllNetworkInterfaces())
+                    {
+
+                        var info = new NetInterfaceInfo { };
+                        info.InterfaceName = nic.Name;
+                        info.PhysicalAddress = nic.GetPhysicalAddress().ToString();
+                        info.InterfaceStatistics = nic.GetIPv4Statistics();
+                        info.Speed = nic.Speed;
+                        result.Add(info);
+                       
+                    }
+
+                });
+
+                return JsonConvert.SerializeObject(result);
+
             });
 
 

@@ -158,6 +158,26 @@ namespace computerMaintainHelper.Core
         /// </summary>
         public string Tag { get; set; }
     }
+
+    public class NetInterfaceInfo
+    {
+        /// <summary>
+        /// 网卡名称
+        /// </summary>
+        public string InterfaceName { get; set; }
+        /// <summary>
+        /// 网卡物理地址
+        /// </summary>
+        public string PhysicalAddress  { get; set; }
+        /// <summary>
+        /// 接口状态信息
+        /// </summary>
+        public IPv4InterfaceStatistics InterfaceStatistics { get; set; }
+        /// <summary>
+        /// 速度
+        /// </summary>
+        public long Speed { get; set; }
+    }
     #endregion
     public class MaintainModel
     {
@@ -430,5 +450,6 @@ namespace computerMaintainHelper.Core
                 return adress;
             }
         }
+         
     }
 }
